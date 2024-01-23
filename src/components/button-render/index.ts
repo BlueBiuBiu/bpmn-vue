@@ -1,9 +1,13 @@
+import { Component } from 'vue';
 import ButtonRender from './ButtonRender';
 
 export interface Button {
+  type?: string;
   label?: string;
-  icon?: string;
+  icon?: Component;
   action?: () => void;
+  children?: Array<Button>;
+  group?: Array<Button>;
 }
 
 export interface ButtonRenderProps {

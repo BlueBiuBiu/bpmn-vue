@@ -9,6 +9,15 @@ import 'codemirror/theme/material.css';
 
 import './bpmn-actions.css';
 import { ModdleElement } from '@/bpmn/type';
+import {
+  ZoomIn,
+  ZoomOut,
+  Refresh,
+  RefreshLeft,
+  RefreshRight,
+  Delete,
+} from '@element-plus/icons-vue';
+import { createNewDiagram } from '@/utils/xml';
 
 export default defineComponent({
   name: 'BpmnActions',
@@ -47,126 +56,159 @@ export default defineComponent({
     const buttonRenderProps: ButtonRenderProps = {
       buttons: [
         {
-          label: '导入',
-          icon: 'icon-shangchuan',
-          action: () => {
-            document.getElementById('bpmn-upload-element')?.click();
-          },
-        },
-        {
-          label: '导出SVG',
-          icon: 'icon-zu920',
-          action: () => {
-            const rootElement: ModdleElement = bpmnContext
-              .getModeler()
-              .get('canvas')
-              .getRootElement();
-            bpmnContext
-              .getSVG()
-              .then((response) => {
-                download(response.svg, rootElement.id || 'process', 'svg');
-              })
-              .catch((err: unknown) => {
-                console.warn(err);
-              });
-          },
-        },
-        {
-          label: '导出XML',
-          icon: 'icon-zu1359',
-          action: () => {
-            const rootElement: ModdleElement = bpmnContext
-              .getModeler()
-              .get('canvas')
-              .getRootElement();
-            bpmnContext
-              .getXML()
-              .then((response: { xml: string }) => {
-                download(response.xml, rootElement.id || 'process', 'bpmn');
-              })
-              .catch((err: unknown) => {
-                console.warn(err);
-              });
-          },
-        },
-        {
-          label: '放大',
-          icon: 'icon-fangda',
-          action: () => {
-            this.zoom = Math.floor(this.zoom * 100 + 0.1 * 100) / 100;
-            bpmnContext.getModeler().get('canvas').zoom(this.zoom);
-          },
-        },
-        {
-          label: '缩小',
-          icon: 'icon-suoxiao',
-          action: () => {
-            this.zoom = Math.floor(this.zoom * 100 - 0.1 * 100) / 100;
-            bpmnContext.getModeler().get('canvas').zoom(this.zoom);
-          },
-        },
-        {
-          label: '还原并居中',
-          icon: 'icon-quxiaoquanping',
-          action: () => {
-            this.zoom = 1;
-            bpmnContext.getModeler().get('canvas').zoom('fit-viewport', 'auto');
-          },
-        },
-        {
-          label: '预览',
-          icon: 'icon-xianshi',
-          action: () => {
-            bpmnContext
-              .getXML()
-              .then((response) => {
-                this.xml = response.xml;
-                this.previewActive = true;
+          type: 'group',
+          group: [
+            {
+              label: '打开文件',
+              action: () => {
+                document.getElementById('bpmn-upload-element')?.click();
+              },
+            },
+            {
+              label: '下载文件',
+              children: [
+                {
+                  label: '导出SVG',
+                  action: () => {
+                    const rootElement: ModdleElement = bpmnContext
+                      .getModeler()
+                      .get('canvas')
+                      .getRootElement();
+                    bpmnContext
+                      .getSVG()
+                      .then((response) => {
+                        download(response.svg, rootElement.id || 'process', 'svg');
+                      })
+                      .catch((err: unknown) => {
+                        // console.warn(err);
+                      });
+                  },
+                },
+                {
+                  label: '导出XML',
+                  action: () => {
+                    const rootElement: ModdleElement = bpmnContext
+                      .getModeler()
+                      .get('canvas')
+                      .getRootElement();
+                    bpmnContext
+                      .getXML()
+                      .then((response: { xml: string }) => {
+                        download(response.xml, rootElement.id || 'process', 'bpmn');
+                      })
+                      .catch((err: unknown) => {
+                        // console.warn(err);
+                      });
+                  },
+                },
+              ],
+            },
+            {
+              label: '预览文件',
+              action: () => {
+                bpmnContext
+                  .getXML()
+                  .then((response) => {
+                    this.xml = response.xml;
+                    this.previewActive = true;
 
-                nextTick(() => {
-                  if (!coder) {
-                    coder = CodeMirror.fromTextArea(
-                      document.getElementById('xml-highlight-container') as HTMLTextAreaElement,
-                      {
-                        lineWrapping: true,
-                        mode: 'application/xml', // HMTL混合模式
-                        theme: 'material',
-                        lineNumbers: true,
-                        lint: true,
-                        // theme: 'monokai', // 使用monokai模版
-                      },
-                    );
-                    coder.setSize('100%', '100%');
-                  } else {
-                    coder.setValue(this.xml);
-                  }
-                });
-              })
-              .catch((err: unknown) => {
-                console.warn(err);
-              });
-          },
+                    nextTick(() => {
+                      if (!coder) {
+                        coder = CodeMirror.fromTextArea(
+                          document.getElementById('xml-highlight-container') as HTMLTextAreaElement,
+                          {
+                            lineWrapping: true,
+                            mode: 'application/xml', // HMTL混合模式
+                            theme: 'material',
+                            lineNumbers: true,
+                            lint: true,
+                            // theme: 'monokai', // 使用monokai模版
+                          },
+                        );
+                        coder.setSize('100%', '100%');
+                      } else {
+                        coder.setValue(this.xml);
+                      }
+                    });
+                  })
+                  .catch((err: unknown) => {
+                    // console.warn(err);
+                  });
+              },
+            },
+          ],
         },
-        // {
-        //   label: '撤销',
-        //   icon: 'icon-weibiaoti545',
-        //   action: () => {
-        //     bpmnContext.getModeler().get('commandStack').undo();
-        //   },
-        // },
-        // {
-        //   label: '恢复',
-        //   icon: 'icon-weibiaoti546',
-        //   action: () => {
-        //     bpmnContext.getModeler().get('commandStack').redo();
-        //   },
-        // },
+        {
+          type: 'group',
+          group: [
+            {
+              label: '放大',
+              icon: ZoomOut,
+              action: () => {
+                this.zoom = Math.floor(this.zoom * 100 + 0.1 * 100) / 100;
+                bpmnContext.getModeler().get('canvas').zoom(this.zoom);
+              },
+            },
+            {
+              label: '重置缩放',
+              icon: Refresh,
+              action: () => {
+                this.zoom = 1;
+                bpmnContext.getModeler().get('canvas').zoom('fit-viewport', 'auto');
+              },
+            },
+            {
+              label: '缩小',
+              icon: ZoomIn,
+              action: () => {
+                this.zoom = Math.floor(this.zoom * 100 - 0.1 * 100) / 100;
+                bpmnContext.getModeler().get('canvas').zoom(this.zoom);
+              },
+            },
+          ],
+        },
+
+        {
+          type: 'group',
+          group: [
+            {
+              label: '撤销',
+              icon: RefreshLeft,
+              action: () => {
+                console.log('--', bpmnContext.getModeler().get('commandStack'));
+
+                bpmnContext.getModeler().get('commandStack').undo();
+              },
+            },
+            {
+              label: '恢复',
+              icon: RefreshRight,
+              action: () => {
+                bpmnContext.getModeler().get('commandStack').redo();
+              },
+            },
+            {
+              label: '擦除重做',
+              icon: Delete,
+              action: () => {
+                bpmnContext.getModeler().get('commandStack').clear();
+                createNewDiagram(bpmnContext.getModeler());
+              },
+            },
+          ],
+        },
       ],
     };
     return (
       <div class="bpmn-actions">
         <ButtonRender {...buttonRenderProps} />
-        <el-drawer size="35%" direction="ltr" withHeader={false} v-model={this.previewActive}>
+        <el-drawer
+          size="35%"
+          direction="ltr"
+          withHeader={false}
+          v-model={this.previewActive}
+          destroy-on-close
+        >
           <textarea id="xml-highlight-container" v-model={this.xml} />
         </el-drawer>
         <input

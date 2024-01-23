@@ -6,10 +6,12 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
     "bpmn-js": "^8.1.0",
     "bpmn-js-properties-panel": "^0.39.0",
     "codemirror": "^5.59.2",
     "element-plus": "^2.1.0",
+    "vite-plugin-qiankun": "^1.0.15",
     "vue": "^3.3.4"
   },
   "devDependencies": {

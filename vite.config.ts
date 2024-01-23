@@ -2,6 +2,8 @@ import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { resolve } from 'path';
 
+import qiankun from 'vite-plugin-qiankun';
+
 //直接获取文件的text
 function rawTransform(fileRegex: Array<RegExp>): {
   name: string;
@@ -21,6 +23,9 @@ export default {
   server: {
     host: '0.0.0.0',
     port: 10086,
+    headers: {
+      'Access-Control-Allow-Origin': '*', // 主应用获取子应用时跨域响应头
+    },
   },
   optimizeDeps: {
     //声明深度路径模块
@@ -33,7 +38,14 @@ export default {
       'bpmn-js/lib/features/label-editing/LabelUtil.js',
     ],
   },
-  plugins: [vue(), rawTransform([/\.bpmn$/]), vueJsx()],
+  plugins: [
+    vue(),
+    rawTransform([/\.bpmn$/]),
+    vueJsx(),
+    qiankun('vue3', {
+      useDevMode: true,
+    }),
+  ],
   resolve: {
     alias: [
       {

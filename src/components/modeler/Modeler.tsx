@@ -6,8 +6,9 @@ import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
 
 import { defineComponent, onMounted } from 'vue';
 import createDefaultBpmnXml from '../../bpmn/defaultBpmnXml';
-import activitiModdel from '../../bpmn/resources/activiti-moddel.json';
+import activitiModel from '../../bpmn/resources/activiti-model.json';
 import translate from '../../bpmn/i18n';
+import customControlsModule from '../../bpmn/customControls';
 import { BpmnStore } from '@/bpmn/store';
 
 export default defineComponent({
@@ -20,9 +21,10 @@ export default defineComponent({
         additionalModules: [
           //添加翻译
           { translate: ['value', translate('zh')] },
+          customControlsModule,
         ],
         moddleExtensions: {
-          activiti: activitiModdel,
+          activiti: activitiModel,
         },
       });
       const defaultProcessIdAndName = '1';
@@ -30,11 +32,11 @@ export default defineComponent({
         .importXML(createDefaultBpmnXml(defaultProcessIdAndName, defaultProcessIdAndName))
         .then((result: Array<string>) => {
           if (result.length) {
-            console.warn('importSuccess warnings', result);
+            // console.warn('importSuccess warnings', result);
           }
         })
         .catch((err: any) => {
-          console.warn('importFail errors ', err);
+          // console.warn('importFail errors ', err);
         });
     });
 

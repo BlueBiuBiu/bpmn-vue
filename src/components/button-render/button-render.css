@@ -1,0 +1,17 @@
+.button-tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.button-tooltip .el-button + .el-button {
+  margin-left: 0;
+}
+
+.button-render {
+  display: flex;
+}
+
+.button-render .el-button-group {
+  margin-right: 10px;
+}
