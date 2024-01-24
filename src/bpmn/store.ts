@@ -27,6 +27,7 @@ function refreshState(elementRegistry: any, elementAction: any): void {
     const replace = element.id.replace(/_label$/, '');
     type = elementRegistry._elements[replace]?.element.type;
   }
+
   bpmnState.activeBindDefine = shape ? BpmnGroupPropertiesConfig[type] : null;
 }
 

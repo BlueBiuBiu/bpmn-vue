@@ -1,0 +1,24 @@
+.prefix-label-tree-select-container {
+  display: flex;
+  width: 100%;
+}
+
+.prefix-title {
+  width: 82px;
+  padding: 0 20px;
+  border: 1px solid #dcdfe6;
+  border-right: 0;
+  border-radius: 4px 0 0 4px;
+  color: #909399;
+  background-color: #f5f7fa;
+  white-space: nowrap;
+}
+
+.prefix-label-tree-select {
+  flex: 1;
+  line-height: normal;
+}
+
+.prefix-label-tree-select {
+  line-height: normal;
+}

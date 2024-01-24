@@ -42,7 +42,7 @@ export default {
     vue(),
     rawTransform([/\.bpmn$/]),
     vueJsx(),
-    qiankun('vue3', {
+    qiankun('bpmnjs', {
       useDevMode: true,
     }),
   ],

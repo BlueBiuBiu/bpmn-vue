@@ -27,6 +27,7 @@ export default defineComponent({
   setup(props, context) {
     const fieldDefine = toRaw(props.fieldDefine);
     const Component = toRaw(fieldDefine.component) as any;
+
     // const rawValue = toRaw(props.modelValue);
 
     const bindValue = ref(props.modelValue ? props.modelValue : null);
@@ -37,6 +38,8 @@ export default defineComponent({
       },
     );
     const key = `field-binder-${props.bindKey}`;
+    // console.log('Component', key, Component, fieldDefine);
+
     return () => (
       <Component
         key={key}

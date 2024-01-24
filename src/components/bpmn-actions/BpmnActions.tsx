@@ -142,10 +142,10 @@ export default defineComponent({
           type: 'group',
           group: [
             {
-              label: '放大',
+              label: '缩小',
               icon: ZoomOut,
               action: () => {
-                this.zoom = Math.floor(this.zoom * 100 + 0.1 * 100) / 100;
+                this.zoom = Math.floor(this.zoom * 100 - 0.1 * 100) / 100;
                 bpmnContext.getModeler().get('canvas').zoom(this.zoom);
               },
             },
@@ -158,10 +158,10 @@ export default defineComponent({
               },
             },
             {
-              label: '缩小',
+              label: '放大',
               icon: ZoomIn,
               action: () => {
-                this.zoom = Math.floor(this.zoom * 100 - 0.1 * 100) / 100;
+                this.zoom = Math.floor(this.zoom * 100 + 0.1 * 100) / 100;
                 bpmnContext.getModeler().get('canvas').zoom(this.zoom);
               },
             },

@@ -7,7 +7,8 @@ import {
 } from '../common';
 import { GroupProperties } from '../index';
 import PrefixLabelSelect from '@/components/prefix-label-select';
-import { ElInput, ElOption } from 'element-plus';
+import PrefixLabelTreeSelect from '@/components/prefix-label-treeselect';
+import { ElInput, ElOption, ElSelect } from 'element-plus';
 import { ModdleElement } from '../../type';
 import { BpmnStore } from '../../store';
 
@@ -26,14 +27,59 @@ const TaskListenerProperties = getElementTypeListenerProperties({
 });
 
 const USER_OPTIONS = [
+  {
+    value: '1',
+    label: 'Level one 1',
+    children: [
+      {
+        value: '1-1',
+        label: 'Level two 1-1',
+        children: [
+          {
+            value: '1-1-1',
+            label: 'Level three 1-1-1',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    value: '2',
+    label: 'Level one 2',
+    children: [
+      {
+        value: '2-1',
+        label: 'Level two 2-1',
+        children: [
+          {
+            value: '2-1-1',
+            label: 'Level three 2-1-1',
+          },
+        ],
+      },
+      {
+        value: '2-2',
+        label: 'Level two 2-2',
+        children: [
+          {
+            value: '2-2-1',
+            label: 'Level three 2-2-1',
+          },
+        ],
+      },
+    ],
+  },
+];
+
+const USER_GROUP_OPTIONS = [
   { label: '张三', value: '1' },
   { label: '李四', value: '2' },
   { label: '王五', value: '3' },
 ];
 
-const UserOption: JSX.Element = (
+const UserGroupOption: JSX.Element = (
   <>
-    {USER_OPTIONS.map((item) => {
+    {USER_GROUP_OPTIONS.map((item) => {
       return <ElOption {...item} />;
     })}
   </>
@@ -50,26 +96,25 @@ export const BpmnUserGroupProperties: GroupProperties = {
      * 处理人属性
      */
     assignee: {
-      component: PrefixLabelSelect,
+      component: PrefixLabelTreeSelect,
       prefixTitle: '处理人',
       allowCreate: true,
       filterable: true,
-      vSlots: {
-        default: (): JSX.Element => UserOption,
-      },
+      treeData: USER_OPTIONS,
     },
     /**
      * 候选人属性
      */
     candidateUsers: {
-      component: PrefixLabelSelect,
+      component: PrefixLabelTreeSelect,
       prefixTitle: '候选人',
       filterable: true,
       multiple: true,
       allowCreate: true,
-      vSlots: {
-        default: (): JSX.Element => UserOption,
-      },
+      treeData: USER_OPTIONS,
+      // vSlots: {
+      //   default: (): JSX.Element => UserOption,
+      // },
       getValue(businessObject: ModdleElement): [] {
         if (!businessObject.candidateUsers) {
           return [];
@@ -77,6 +122,27 @@ export const BpmnUserGroupProperties: GroupProperties = {
         return 'string' === typeof businessObject.candidateUsers
           ? businessObject?.candidateUsers.split(',')
           : businessObject?.candidateUsers;
+      },
+    },
+    /**
+     * 候选组属性
+     */
+    candidateGroups: {
+      component: PrefixLabelSelect,
+      prefixTitle: '候选组',
+      filterable: true,
+      allowCreate: true,
+      treeData: USER_OPTIONS,
+      vSlots: {
+        default: (): JSX.Element => UserGroupOption,
+      },
+      getValue(businessObject: ModdleElement): [] {
+        if (!businessObject.candidateGroups) {
+          return [];
+        }
+        return 'string' === typeof businessObject.candidateGroups
+          ? businessObject?.candidateGroups.split(',')
+          : businessObject?.candidateGroups;
       },
     },
     /**
