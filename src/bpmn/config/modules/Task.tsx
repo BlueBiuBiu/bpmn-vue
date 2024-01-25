@@ -11,6 +11,7 @@ import PrefixLabelTreeSelect from '@/components/prefix-label-treeselect';
 import { ElInput, ElOption, ElSelect } from 'element-plus';
 import { ModdleElement } from '../../type';
 import { BpmnStore } from '../../store';
+import { organizationList, roleList } from '@/qiankun';
 
 const TASK_EVENT_OPTIONS = [
   { label: '开始', value: 'start' },
@@ -26,60 +27,11 @@ const TaskListenerProperties = getElementTypeListenerProperties({
   eventOptions: TASK_EVENT_OPTIONS,
 });
 
-const USER_OPTIONS = [
-  {
-    value: '1',
-    label: 'Level one 1',
-    children: [
-      {
-        value: '1-1',
-        label: 'Level two 1-1',
-        children: [
-          {
-            value: '1-1-1',
-            label: 'Level three 1-1-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '2',
-    label: 'Level one 2',
-    children: [
-      {
-        value: '2-1',
-        label: 'Level two 2-1',
-        children: [
-          {
-            value: '2-1-1',
-            label: 'Level three 2-1-1',
-          },
-        ],
-      },
-      {
-        value: '2-2',
-        label: 'Level two 2-2',
-        children: [
-          {
-            value: '2-2-1',
-            label: 'Level three 2-2-1',
-          },
-        ],
-      },
-    ],
-  },
-];
-
-const USER_GROUP_OPTIONS = [
-  { label: '张三', value: '1' },
-  { label: '李四', value: '2' },
-  { label: '王五', value: '3' },
-];
-
 const UserGroupOption: JSX.Element = (
   <>
-    {USER_GROUP_OPTIONS.map((item) => {
+    {roleList.value.map((item) => {
+      item.label = item.name;
+      item.value = item.id;
       return <ElOption {...item} />;
     })}
   </>
@@ -100,7 +52,7 @@ export const BpmnUserGroupProperties: GroupProperties = {
       prefixTitle: '处理人',
       allowCreate: true,
       filterable: true,
-      treeData: USER_OPTIONS,
+      treeData: organizationList.value,
     },
     /**
      * 候选人属性
@@ -111,7 +63,7 @@ export const BpmnUserGroupProperties: GroupProperties = {
       filterable: true,
       multiple: true,
       allowCreate: true,
-      treeData: USER_OPTIONS,
+      treeData: organizationList.value,
       // vSlots: {
       //   default: (): JSX.Element => UserOption,
       // },
@@ -132,7 +84,7 @@ export const BpmnUserGroupProperties: GroupProperties = {
       prefixTitle: '候选组',
       filterable: true,
       allowCreate: true,
-      treeData: USER_OPTIONS,
+      treeData: roleList.value,
       vSlots: {
         default: (): JSX.Element => UserGroupOption,
       },

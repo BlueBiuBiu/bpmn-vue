@@ -7,6 +7,7 @@ import 'element-plus/dist/index.css';
 import './iconfont.js';
 import { renderWithQiankun, qiankunWindow, QiankunProps } from 'vite-plugin-qiankun/dist/helper';
 import { BpmnStore } from './bpmn/store';
+import { organizationList, roleList } from '@/qiankun';
 
 const render = (props: QiankunProps = {}) => {
   const { container } = props;
@@ -25,14 +26,36 @@ const initQianKun = () => {
     mount(props) {
       // 获取主应用传入数据
       console.log('微应用：mount', props);
+      props.onGlobalStateChange(async (state: any) => {
+        const organization = state.organizationList;
+        const role = state.roleList;
+        const modelXML = state.modelXML;
+
+        if (organization.length) {
+          organizationList.value = organization;
+        }
+        if (role.length) {
+          roleList.value = role;
+        }
+
+        if (modelXML) {
+          BpmnStore.importXML(modelXML);
+        }
+
+        if (state.getXmlAndSvg) {
+          const xml = await BpmnStore.getXML();
+          const svg = await BpmnStore.getSVG();
+          props.setGlobalState({ xml: xml.xml, svg: svg.svg, getXmlAndSvg: false });
+        }
+      });
       render(props);
       props.setGlobalState({ bpmnContext: BpmnStore });
     },
     unmount(props) {
-      console.log('微应用：unmount', props);
+      // console.log('微应用：unmount', props);
     },
     update(props) {
-      console.log('微应用：update', props);
+      // console.log('微应用：update', props);
     },
   });
 };

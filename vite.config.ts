@@ -24,7 +24,7 @@ export default {
     host: '0.0.0.0',
     port: 10086,
     headers: {
-      'Access-Control-Allow-Origin': '*', // 主应用获取子应用时跨域响应头
+      'Access-Control-Allow-Origin': 'http://localhost:9000', // 主应用获取子应用时跨域响应头
     },
   },
   optimizeDeps: {

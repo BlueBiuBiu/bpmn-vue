@@ -33,7 +33,7 @@ export default defineComponent({
     watch(
       () => contextState.activeBindDefine,
       () => {
-        console.log('contextState.activeBindDefine', contextState.activeBindDefine);
+        // console.log('contextState.activeBindDefine', contextState.activeBindDefine);
 
         if (contextState.activeBindDefine) {
           panelState.shrinkageOff = false;
@@ -48,6 +48,7 @@ export default defineComponent({
     watch(
       () => panelState.shrinkageOff,
       () => {
+        if (!document.querySelector('.bjs-powered-by')) return;
         if (panelState.shrinkageOff) {
           (document.querySelector('.bjs-powered-by') as HTMLElement).style.right = '15px';
         } else {

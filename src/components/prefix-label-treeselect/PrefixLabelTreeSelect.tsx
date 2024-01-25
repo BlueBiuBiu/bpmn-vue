@@ -27,8 +27,10 @@ const PrefixLabelTreeSelect = defineComponent({
         <ElTreeSelect
           class="prefix-label-tree-select"
           filterable
+          node-key="value"
           v-model={computedModelValue.value}
           {...props}
+          props={{ children: 'children', label: 'name' }}
           data={props.treeData}
         />
       </div>
