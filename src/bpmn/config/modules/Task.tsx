@@ -8,7 +8,7 @@ import {
 import { GroupProperties } from '../index';
 import PrefixLabelSelect from '@/components/prefix-label-select';
 import PrefixLabelTreeSelect from '@/components/prefix-label-treeselect';
-import { ElInput, ElOption, ElSelect } from 'element-plus';
+import { ElInput, ElOption } from 'element-plus';
 import { ModdleElement } from '../../type';
 import { BpmnStore } from '../../store';
 import { organizationList, roleList } from '@/qiankun';
@@ -126,6 +126,26 @@ export const BpmnUserGroupProperties: GroupProperties = {
         BpmnStore.updateProperties(BpmnStore.getShape(), {
           loopCharacteristics: loopCharacteristics,
         });
+      },
+    },
+    /**
+     * 集合
+     */
+    collection: {
+      component: ElInput,
+      placeholder: '集合',
+      vSlots: {
+        prepend: (): JSX.Element => <div>集合</div>,
+      },
+    },
+    /**
+     * 元素变量
+     */
+    elementVariable: {
+      component: ElInput,
+      placeholder: '元素变量',
+      vSlots: {
+        prepend: (): JSX.Element => <div>元素变量</div>,
       },
     },
     /**
