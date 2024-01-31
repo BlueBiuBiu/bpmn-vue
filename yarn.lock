@@ -611,6 +611,11 @@
     magic-string "^0.25.7"
     resolve "^1.17.0"
 
+"@rollup/plugin-html@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/@rollup/plugin-html/-/plugin-html-1.0.3.tgz#9802e94bbca1d9acdca1066e9f919b7bc2516bf3"
+  integrity sha512-bbjQciNXitHX+Bgk0xsW3/0wFWih/356/r7/kvmdz4wzWhAU/a0zYBWTczihrlzz/6Qpw/kZ0yXqOJwsETgg7A==
+
 "@rollup/pluginutils@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-3.1.0.tgz#706b4524ee6dc8b103b3c995533e5ad680c02b9b"

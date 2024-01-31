@@ -1,8 +1,10 @@
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { resolve } from 'path';
+import { defineConfig } from 'vite';
 
 import qiankun from 'vite-plugin-qiankun';
+import html from '@rollup/plugin-html';
 
 //直接获取文件的text
 function rawTransform(fileRegex: Array<RegExp>): {
@@ -19,7 +21,7 @@ function rawTransform(fileRegex: Array<RegExp>): {
   };
 }
 
-export default {
+export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 10019,
@@ -45,6 +47,52 @@ export default {
     qiankun('bpmnjs', {
       useDevMode: true,
     }),
+    html({
+      // copy 自 https://github.com/rollup/plugins/blob/db4a3f2e8ebd3328b5d43bcb272589866dfd5729/packages/html/src/index.ts#L34
+      template: ({ attributes, files, meta, publicPath, title }) => {
+        const makeHtmlAttributes = (attributes) => {
+          if (!attributes) {
+            return '';
+          }
+          const keys = Object.keys(attributes);
+          return keys.reduce((result, key) => (result += ` ${key}="${attributes[key]}"`), '');
+        };
+        const scripts = (files.js || [])
+          .map(({ fileName }) => {
+            const attrs = makeHtmlAttributes(attributes.script);
+            return `<script src="${publicPath}${fileName}"${attrs}></script>`;
+          })
+          .join('\n');
+
+        const links = (files.css || [])
+          .map(({ fileName }) => {
+            const attrs = makeHtmlAttributes(attributes.link);
+            return `<link href="${publicPath}${fileName}" rel="stylesheet"${attrs}>`;
+          })
+          .join('\n');
+
+        const metas = meta
+          .map((input) => {
+            const attrs = makeHtmlAttributes(input);
+            return `<meta${attrs}>`;
+          })
+          .join('\n');
+
+        return `<!doctype html>
+        <html${makeHtmlAttributes(attributes.html)}>
+          <head>
+            ${metas}
+            <title>bpmnjs</title>
+            ${links}
+            <link href="./style.css" rel="stylesheet"></link>
+          </head>
+          <body>
+            <div id="app"></div>
+            ${scripts}
+          </body>
+        </html>`;
+      },
+    }),
   ],
   resolve: {
     alias: [
@@ -54,4 +102,12 @@ export default {
       },
     ],
   },
-};
+  build: {
+    target: 'esnext',
+    lib: {
+      name: 'bpmnjs',
+      entry: 'src/main.ts',
+      formats: ['umd'],
+    },
+  },
+});
