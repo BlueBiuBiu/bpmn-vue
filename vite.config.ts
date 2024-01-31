@@ -22,7 +22,6 @@ function rawTransform(fileRegex: Array<RegExp>): {
 }
 
 export default defineConfig({
-  base: process.env.NODE_ENV === 'development' ? '/' : 'http://192.168.2.246:10019/',
   server: {
     host: '0.0.0.0',
     port: 10019,
