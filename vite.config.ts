@@ -119,14 +119,6 @@ export default defineConfig({
       fileName: 'bpmnjs',
       entry: 'src/main.ts',
       formats: ['umd'],
-      
     },
-    rollupOptions: {
-      output: {
-        globals: {
-          'globalObject': 'window'
-        }
-      }
-    }
   },
 });
