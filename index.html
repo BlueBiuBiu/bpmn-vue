@@ -38,27 +38,6 @@
   </head>
   <body>
     <div id="app"></div>
-    <script entry>
-      (function () {
-        (function (win) {
-          win['purehtml'] = {
-            bootstrap: () => {
-              console.log('purehtml bootstrap');
-            },
-            update: () => {
-              console.log('purehtml update');
-            },
-            mount: (props) => {
-              console.log('purehtml mount');
-              return win.appRender(props);
-            },
-            unmount: () => {
-              console.log('purehtml unmount');
-            },
-          };
-        })(window);
-      })(window);
-    </script>
     <script type="module" src="/src/main.ts"></script>
     <!--<script type="module" src="/public/iconfont.js"></script>-->
   </body>

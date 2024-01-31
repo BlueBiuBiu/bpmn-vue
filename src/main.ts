@@ -61,4 +61,3 @@ const initQianKun = () => {
 };
 
 qiankunWindow.__POWERED_BY_QIANKUN__ ? initQianKun() : render(); // 判断是否使用 qiankun ，保证项目可以独立运行
-
