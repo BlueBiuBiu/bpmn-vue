@@ -52,12 +52,13 @@ const initQianKun = () => {
       props.setGlobalState({ bpmnContext: BpmnStore });
     },
     unmount(props) {
-      // console.log('微应用：unmount', props);
+      console.log('微应用：unmount', props);
     },
     update(props) {
-      // console.log('微应用：update', props);
+      console.log('微应用：update', props);
     },
   });
 };
 
 qiankunWindow.__POWERED_BY_QIANKUN__ ? initQianKun() : render(); // 判断是否使用 qiankun ，保证项目可以独立运行
+
