@@ -113,11 +113,10 @@ export default defineConfig({
     ],
   },
   build: {
-    target: 'esnext',
     lib: {
       name: 'bpmnjs',
       entry: 'src/main.ts',
-      formats: ["es"],
+      formats: ['umd'],
     },
   },
 });
