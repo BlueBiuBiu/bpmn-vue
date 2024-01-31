@@ -9,11 +9,12 @@ import { renderWithQiankun, qiankunWindow, QiankunProps } from 'vite-plugin-qian
 import { BpmnStore } from './bpmn/store';
 import { organizationList, roleList } from '@/qiankun';
 
+let app: any;
 const render = (props: QiankunProps = {}) => {
   const { container } = props;
   // 如果是在主应用的环境下就挂载主应用的节点，否则挂载到本地
   const appDom = container ? container : '#app';
-  const app = createApp(App);
+  app = createApp(App);
   app.use(ElementPlus);
   app.mount(appDom);
 };
@@ -52,6 +53,7 @@ renderWithQiankun({
   },
   unmount(props) {
     console.log('微应用：unmount', props);
+    app.unmount();
   },
   update(props) {
     console.log('微应用：update', props);
