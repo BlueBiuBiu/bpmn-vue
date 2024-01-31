@@ -115,6 +115,7 @@ export default defineConfig({
   build: {
     lib: {
       name: 'bpmnjs',
+      fileName: 'bpmnjs',
       entry: 'src/main.ts',
       formats: ['umd'],
       
