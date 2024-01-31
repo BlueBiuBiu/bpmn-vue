@@ -89,15 +89,7 @@ export default defineConfig({
           </head>
           <body>
             <div id="app"></div>
-            <script>
-              if (!('process' in window)) {
-                window.process = {
-                    env: {
-                        DEBUG: undefined
-                    }
-                }
-              }
-            </script>
+
             ${scripts}
           </body>
         </html>`;
