@@ -1,5 +1,5 @@
 {
-  "name": "bpmn-vue-aciviti",
+  "name": "bpmnjs",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
