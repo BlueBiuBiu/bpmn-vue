@@ -54,12 +54,4 @@ export default {
       },
     ],
   },
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'src/main.ts'),
-      name: 'bpmnjs',
-      // the proper extensions will be added
-      fileName: 'bpmnjs-lib',
-    },
-  },
 };
