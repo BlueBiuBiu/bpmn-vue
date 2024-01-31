@@ -117,7 +117,7 @@ export default defineConfig({
     lib: {
       name: 'bpmnjs',
       entry: 'src/main.ts',
-      formats: ['umd'],
+      formats: ["es"],
     },
   },
 });
