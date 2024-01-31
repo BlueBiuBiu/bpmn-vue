@@ -49,7 +49,7 @@ export default defineConfig({
     }),
     html({
       // copy 自 https://github.com/rollup/plugins/blob/db4a3f2e8ebd3328b5d43bcb272589866dfd5729/packages/html/src/index.ts#L34
-      template: ({ attributes, files, meta, publicPath, title }) => {
+      template: ({ attributes, files, meta, publicPath }) => {
         const makeHtmlAttributes = (attributes) => {
           if (!attributes) {
             return '';
@@ -60,7 +60,17 @@ export default defineConfig({
         const scripts = (files.js || [])
           .map(({ fileName }) => {
             const attrs = makeHtmlAttributes(attributes.script);
-            return `<script src="${publicPath}${fileName}"${attrs}></script>`;
+            return `
+            <script>
+              if (!('process' in window)) {
+                window.process = {
+                    env: {
+                        DEBUG: undefined
+                    }
+                }
+              }
+            </script>
+            <script src="${publicPath}${fileName}"${attrs}></script>`;
           })
           .join('\n');
 
@@ -89,7 +99,6 @@ export default defineConfig({
           </head>
           <body>
             <div id="app"></div>
-
             ${scripts}
           </body>
         </html>`;
