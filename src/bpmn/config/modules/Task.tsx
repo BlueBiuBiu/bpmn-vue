@@ -84,17 +84,14 @@ export const BpmnUserGroupProperties: GroupProperties = {
       prefixTitle: '候选组',
       filterable: true,
       allowCreate: true,
-      treeData: roleList.value,
       vSlots: {
         default: (): JSX.Element => UserGroupOption,
       },
-      getValue(businessObject: ModdleElement): [] {
+      getValue(businessObject: ModdleElement): string {
         if (!businessObject.candidateGroups) {
-          return [];
+          return '';
         }
-        return 'string' === typeof businessObject.candidateGroups
-          ? businessObject?.candidateGroups.split(',')
-          : businessObject?.candidateGroups;
+        return businessObject?.candidateGroups;
       },
     },
     /**
@@ -137,6 +134,22 @@ export const BpmnUserGroupProperties: GroupProperties = {
       vSlots: {
         prepend: (): JSX.Element => <div>集合</div>,
       },
+      getValue(businessObject: ModdleElement): string {
+        const loopCharacteristics = businessObject.loopCharacteristics;
+        if (!loopCharacteristics) {
+          return '';
+        }
+        return loopCharacteristics.collection;
+      },
+      setValue(businessObject: ModdleElement, key: string, value: string): void {
+        console.log('businessObject1', businessObject);
+
+        const loopCharacteristics = businessObject.loopCharacteristics;
+        loopCharacteristics.collection = value;
+        BpmnStore.updateProperties(BpmnStore.getShape(), {
+          loopCharacteristics: loopCharacteristics,
+        });
+      },
     },
     /**
      * 元素变量
@@ -146,6 +159,20 @@ export const BpmnUserGroupProperties: GroupProperties = {
       placeholder: '元素变量',
       vSlots: {
         prepend: (): JSX.Element => <div>元素变量</div>,
+      },
+      getValue(businessObject: ModdleElement): string {
+        const loopCharacteristics = businessObject.loopCharacteristics;
+        if (!loopCharacteristics) {
+          return '';
+        }
+        return loopCharacteristics.elementVariable;
+      },
+      setValue(businessObject: ModdleElement, key: string, value: string): void {
+        const loopCharacteristics = businessObject.loopCharacteristics;
+        loopCharacteristics.elementVariable = value;
+        BpmnStore.updateProperties(BpmnStore.getShape(), {
+          loopCharacteristics: loopCharacteristics,
+        });
       },
     },
     /**
@@ -171,6 +198,7 @@ export const BpmnUserGroupProperties: GroupProperties = {
         if (!loopCharacteristics) {
           return '';
         }
+
         return loopCharacteristics.completionCondition?.body;
       },
       setValue(businessObject: ModdleElement, key: string, value: string): void {
@@ -216,6 +244,8 @@ const BaseTaskProperties = {
         default: (): JSX.Element => LoopOptions,
       },
       getValue(businessObject: ModdleElement): string {
+        console.log('businessObject', businessObject);
+
         const loopCharacteristics = businessObject.loopCharacteristics;
         if (!loopCharacteristics) {
           return 'Null';
