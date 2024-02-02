@@ -52,6 +52,7 @@ export const BpmnUserGroupProperties: GroupProperties = {
       prefixTitle: '处理人',
       allowCreate: true,
       filterable: true,
+      clearable: true,
       treeData: organizationList.value,
     },
     /**
@@ -84,6 +85,7 @@ export const BpmnUserGroupProperties: GroupProperties = {
       prefixTitle: '候选组',
       filterable: true,
       allowCreate: true,
+      clearable: true,
       vSlots: {
         default: (): JSX.Element => UserGroupOption,
       },
