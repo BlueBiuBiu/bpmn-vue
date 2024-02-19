@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, nextTick } from 'vue';
 import App from './App';
 import './index.css';
 import ElementPlus from 'element-plus';
@@ -40,6 +40,10 @@ renderWithQiankun({
 
       if (modelXML) {
         BpmnStore.importXML(modelXML);
+        // 导入的时候进行居中处理
+        setTimeout(() => {
+          BpmnStore.getModeler().get('canvas').zoom('fit-viewport', 'auto');
+        });
       }
 
       if (state.getXmlAndSvg) {
