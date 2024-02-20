@@ -39,11 +39,22 @@ renderWithQiankun({
       }
 
       if (modelXML) {
-        BpmnStore.importXML(modelXML);
-        // 导入的时候进行居中处理
-        setTimeout(() => {
-          BpmnStore.getModeler().get('canvas').zoom('fit-viewport', 'auto');
-        });
+        await BpmnStore.importXML(modelXML);
+        const canvas = BpmnStore.getModeler().get('canvas');
+
+        // 导入的时候进行居中处理(一直递归,直到svg有宽度,加载完再进行居中缩放)
+        const svgDom = document.querySelector('.djs-palette-shown svg');
+        function waitForElementToDisplay(dom: any, time: number) {
+          if (canvas._svg.clientWidth !== 0) {
+            canvas.zoom('fit-viewport', 'auto');
+          } else {
+            setTimeout(function () {
+              waitForElementToDisplay(dom, time);
+            }, time);
+          }
+        }
+
+        waitForElementToDisplay(svgDom, 100);
       }
 
       if (state.getXmlAndSvg) {
