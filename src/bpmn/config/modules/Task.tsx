@@ -52,6 +52,7 @@ export const BpmnUserGroupProperties: GroupProperties = {
       prefixTitle: '处理人',
       allowCreate: true,
       filterable: true,
+      clearable: true,
       treeData: organizationList.value,
     },
     /**
@@ -84,6 +85,7 @@ export const BpmnUserGroupProperties: GroupProperties = {
       prefixTitle: '候选组',
       filterable: true,
       allowCreate: true,
+      clearable: true,
       vSlots: {
         default: (): JSX.Element => UserGroupOption,
       },
@@ -134,6 +136,9 @@ export const BpmnUserGroupProperties: GroupProperties = {
       vSlots: {
         prepend: (): JSX.Element => <div>集合</div>,
       },
+      predicate(businessObject: ModdleElement): boolean {
+        return businessObject.loopCharacteristics;
+      },
       getValue(businessObject: ModdleElement): string {
         const loopCharacteristics = businessObject.loopCharacteristics;
         if (!loopCharacteristics) {
@@ -159,6 +164,9 @@ export const BpmnUserGroupProperties: GroupProperties = {
       placeholder: '元素变量',
       vSlots: {
         prepend: (): JSX.Element => <div>元素变量</div>,
+      },
+      predicate(businessObject: ModdleElement): boolean {
+        return businessObject.loopCharacteristics;
       },
       getValue(businessObject: ModdleElement): string {
         const loopCharacteristics = businessObject.loopCharacteristics;
