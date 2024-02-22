@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, nextTick } from 'vue';
 import App from './App';
 import './index.css';
 import ElementPlus from 'element-plus';
