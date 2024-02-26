@@ -27,15 +27,16 @@ const TaskListenerProperties = getElementTypeListenerProperties({
   eventOptions: TASK_EVENT_OPTIONS,
 });
 
-const UserGroupOption: JSX.Element = (
-  <>
-    {roleList.value.map((item) => {
-      item.label = item.name;
-      item.value = item.id;
-      return <ElOption {...item} />;
-    })}
-  </>
-);
+roleList.value.map((item) => (item.value = item.id));
+
+// const UserGroupOption: JSX.Element = (
+//   <>
+//     {roleList.value.map((item) => {
+//       item.value = item.id;
+//       return <ElOption {...item} />;
+//     })}
+//   </>
+// );
 
 /**
  * 用户任务属性配置
@@ -81,19 +82,22 @@ export const BpmnUserGroupProperties: GroupProperties = {
      * 候选组属性
      */
     candidateGroups: {
-      component: PrefixLabelSelect,
+      component: PrefixLabelTreeSelect,
       prefixTitle: '候选组',
       filterable: true,
       allowCreate: true,
-      clearable: true,
-      vSlots: {
-        default: (): JSX.Element => UserGroupOption,
-      },
-      getValue(businessObject: ModdleElement): string {
+      multiple: true,
+      treeData: roleList.value,
+      // vSlots: {
+      //   default: (): JSX.Element => UserGroupOption,
+      // },
+      getValue(businessObject: ModdleElement): [] {
         if (!businessObject.candidateGroups) {
-          return '';
+          return [];
         }
-        return businessObject?.candidateGroups;
+        return 'string' === typeof businessObject.candidateGroups
+          ? businessObject?.candidateGroups.split(',')
+          : businessObject?.candidateGroups;
       },
     },
     /**
