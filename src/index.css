@@ -46,6 +46,11 @@ body {
   background-color: transparent !important;
 }
 
+/*  */
+.bjs-container {
+  height: calc(100% - 40px) !important;
+  top: 40px !important;
+}
 /* 小地图样式 */
 .djs-minimap {
   top: 50px !important;
