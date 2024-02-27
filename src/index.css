@@ -45,3 +45,16 @@ body {
 ::-webkit-scrollbar-track {
   background-color: transparent !important;
 }
+
+/* 小地图样式 */
+.djs-minimap {
+  top: 50px !important;
+}
+.djs-minimap div.toggle {
+  display: none;
+}
+
+/* 流程模拟的样式 */
+.bts-toggle-mode {
+  display: none !important;
+}

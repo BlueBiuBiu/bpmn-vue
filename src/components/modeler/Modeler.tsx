@@ -5,6 +5,8 @@ import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
 
 import { defineComponent, onMounted } from 'vue';
+import TokenSimulationModule from 'bpmn-js-token-simulation'; // 流程模拟
+import minimapModule from 'diagram-js-minimap'; // 小地图
 import createDefaultBpmnXml from '../../bpmn/defaultBpmnXml';
 import activitiModel from '../../bpmn/resources/activiti-model.json';
 import translate from '../../bpmn/i18n';
@@ -22,10 +24,15 @@ export default defineComponent({
           //添加翻译
           { translate: ['value', translate('zh')] },
           customControlsModule,
+          TokenSimulationModule,
+          minimapModule,
         ],
         moddleExtensions: {
           activiti: activitiModel,
         },
+        // minimap: {
+        //   open: true,
+        // },
       });
       const defaultProcessIdAndName = '1';
       bpmnContext

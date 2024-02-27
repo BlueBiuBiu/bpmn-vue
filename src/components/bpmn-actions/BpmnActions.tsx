@@ -16,6 +16,8 @@ import {
   RefreshLeft,
   RefreshRight,
   Delete,
+  Coordinate,
+  Guide,
 } from '@element-plus/icons-vue';
 import { createNewDiagram } from '@/utils/xml';
 
@@ -193,6 +195,26 @@ export default defineComponent({
               action: () => {
                 bpmnContext.getModeler().get('commandStack').clear();
                 createNewDiagram(bpmnContext.getModeler());
+              },
+            },
+          ],
+        },
+
+        {
+          type: 'group',
+          group: [
+            {
+              label: '开启/关闭流程模拟',
+              icon: Coordinate,
+              action: () => {
+                bpmnContext.getModeler().get('toggleMode')?.toggleMode();
+              },
+            },
+            {
+              label: '展开/收起小地图',
+              icon: Guide,
+              action: () => {
+                bpmnContext.getModeler().get('minimap')?.toggle();
               },
             },
           ],

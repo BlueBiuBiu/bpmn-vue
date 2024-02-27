@@ -1,9 +1,11 @@
 import { createApp, nextTick } from 'vue';
 import App from './App';
-import './index.css';
+import 'bpmn-js-token-simulation/assets/css/bpmn-js-token-simulation.css';
+import 'diagram-js-minimap/assets/diagram-js-minimap.css';
 import ElementPlus from 'element-plus';
 // import 'element-plus/lib/theme-chalk/index.css';
 import 'element-plus/dist/index.css';
+import './index.css';
 import './iconfont.js';
 import { renderWithQiankun, qiankunWindow, QiankunProps } from 'vite-plugin-qiankun/dist/helper';
 import { BpmnStore } from './bpmn/store';
@@ -41,12 +43,15 @@ renderWithQiankun({
       if (modelXML) {
         BpmnStore.importXML(modelXML);
         const canvas = BpmnStore.getModeler().get('canvas');
-
-        // 导入的时候进行居中处理(一直递归,直到svg有宽度,加载完再进行居中缩放)
+        //  导入的时候进行居中处理(一直递归, 直到svg有宽度, 加载完再进行居中缩放);
         const svgDom = document.querySelector('.djs-palette-shown svg');
         function waitForElementToDisplay(dom: any, time: number) {
           if (canvas._svg.clientWidth !== 0) {
-            canvas.zoom('fit-viewport', 'auto');
+            BpmnStore.importXML(modelXML);
+            BpmnStore.getModeler().get('minimap')?.toggle();
+            setTimeout(() => {
+              canvas.zoom('fit-viewport', 'auto');
+            });
           } else {
             setTimeout(function () {
               waitForElementToDisplay(dom, time);

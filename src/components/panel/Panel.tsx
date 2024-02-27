@@ -51,9 +51,11 @@ export default defineComponent({
         if (!document.querySelector('.bjs-powered-by')) return;
         if (panelState.shrinkageOff) {
           (document.querySelector('.bjs-powered-by') as HTMLElement).style.right = '15px';
+          (document.querySelector('.djs-minimap') as HTMLElement).style.right = '15px';
         } else {
           (document.querySelector('.bjs-powered-by') as HTMLElement).style.right =
             'calc(25% + 15px)';
+          (document.querySelector('.djs-minimap') as HTMLElement).style.right = 'calc(25% + 15px)';
         }
       },
     );
